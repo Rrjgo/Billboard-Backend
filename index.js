@@ -1,29 +1,23 @@
 const express = require('express')
+
+const messageRoutes = require('./routes/message')
+
 const app = express();
 const port = 8000;
 
-app.use(express.json());
-app.use(express.urlencoded());
+
+app.use(express.json({extended: true}));
+app.use(express.urlencoded({extended: true}));
+
+
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Billboard-backend')
 });
 
-app.get('/test', (req, res) => {
-  res.send('test')
-});
+app.use("/msg",messageRoutes)
 
-let state = []
 
-app.get('/msg', (req, res) => {
-  res.send(state)
-});
-
-app.post('/msg', (req, res) => {
-  console.log(req.body)
-  state.push({message:req.body.message, timestame:new Date()})
-  res.send(state)
-});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
