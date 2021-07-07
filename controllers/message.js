@@ -1,19 +1,32 @@
+const Message = require("../models/message");
 
-let state = []
+const getMessages = async (req, res) => {
+    try {
+        const messages = await Message.find()
+        res.send(messages)
+    } catch (e) {
+        res.status(404).send({ message: e.message })
+    }
 
-const getMessage = async (req, res) => {
-    res.send(state)
 };
 
 const sendMessage = async (req, res) => {
-    const { message } = req.body
+    try {
+        const { message } = req.body
 
-    state.push({ message: message, timestame: new Date() })
-    res.send(state)
+        const newMessage = new Message({
+            message,
+            timestamp: new Date()
+        })
+        await newMessage.save();
+        res.send(newMessage)
 
+    } catch (e) {
+        res.status(404).send({ message: e.message })
+    }
 };
 
-module.exports = {getMessage,sendMessage};
+module.exports = { getMessages, sendMessage };
 
 
 
