@@ -26,7 +26,19 @@ const sendMessage = async (req, res) => {
     }
 };
 
-module.exports = { getMessages, sendMessage };
+const searchMessage = async (req, res) => {
+    try {
+        const searchMessage = { $text: { $search: req.body } }
+        
+        const searchMessages = await Message.find(searchMessage)
+        res.send(searchMessages)
+
+    } catch (e) {
+        res.status(404).send({ message: e.message })
+    }
+};
+
+module.exports = { getMessages, sendMessage, searchMessage };
 
 
 
