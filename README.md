@@ -1,5 +1,7 @@
 #Billboard-Backend
 
+online message board
+
 ## Built With
 
 -   NodeJS
@@ -19,4 +21,3 @@ npm install
 ### Connect MongoDB
 *   Sign up and create a new cluster
 *   Copy the connection string and paste after `MONGOOSE_URL=` in `.env`
-
