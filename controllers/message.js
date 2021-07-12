@@ -28,8 +28,8 @@ const sendMessage = async (req, res) => {
 
 const searchMessage = async (req, res) => {
     try {
-        const searchMessage = { $text: { $search: req.body } }
-        
+        const searchMessage = { $text: { $search: req.body.message} }
+        console.log(req.body)
         const searchMessages = await Message.find(searchMessage)
         res.send(searchMessages)
 
