@@ -5,6 +5,8 @@ const messageSchema = new mongoose.Schema({
     timestamp: Date,
 });
 
+messageSchema.index({name: 'text', message:'text'});
+
 const Message = mongoose.model("Message", messageSchema);
 
 module.exports = Message
