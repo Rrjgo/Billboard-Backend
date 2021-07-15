@@ -16,7 +16,7 @@ const sendMessage = async (req, res) => {
 
         const newMessage = new Message({
             message,
-            timestamp: new Date()
+            timestamp: new moment().format('MMMM Do YYYY, h:mm:ss a')
         })
         await newMessage.save();
         res.send(newMessage)
