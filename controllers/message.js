@@ -17,7 +17,7 @@ const sendMessage = async (req, res) => {
 
         const newMessage = new Message({
             message,
-            timestamp: new Date()
+            timestamp: new Date(moment().format('MMMM Do YYYY, h:mm:ss a'))
         })
         await newMessage.save();
         res.send(newMessage)
@@ -29,7 +29,7 @@ const sendMessage = async (req, res) => {
 
 const searchMessage = async (req, res) => {
     try {
-        const searchMessage = { $text: { $search: req.body.message} }
+        const searchMessage = { $text: { $search: req.body.message } }
         console.log(req.body)
         const searchMessages = await Message.find(searchMessage)
         res.send(searchMessages)
