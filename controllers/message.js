@@ -1,5 +1,5 @@
 const Message = require("../models/message");
-const moment = require("moment")
+const moment = require('moment');
 
 const getMessages = async (req, res) => {
     try {
@@ -17,7 +17,7 @@ const sendMessage = async (req, res) => {
 
         const newMessage = new Message({
             message,
-            timestamp: new Date(moment().format('MMMM Do YYYY, h:mm:ss a'))
+            timestamp: moment().format('MMMM Do YYYY, h:mm:ss')
         })
         await newMessage.save();
         res.send(newMessage)
