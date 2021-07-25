@@ -9,7 +9,6 @@ const messageRoutes = require('./routes/message')
 const app = express();
 const port = process.env.PORT || 8000;
 
-
 //connect to mongodb
 mongoose.connect(process.env.MONGOOSE_URL || "" ,{
   useNewUrlParser: true,
@@ -23,6 +22,12 @@ mongoose.connection.once('open',() => {})
 app.use(express.json({extended: true}));
 app.use(express.urlencoded({extended: true}));
 app.use(cors())
+
+const io = require("socket.io")(3000);
+
+io.on("connection", socket => {
+  console.log(socket.id)
+})
 
 //defult page
 app.get('/', (req, res) => {
