@@ -2,7 +2,6 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors')
 
 const messageRoutes = require('./routes/message')
 
@@ -21,13 +20,17 @@ mongoose.connection.once('open',() => {})
 
 app.use(express.json({extended: true}));
 app.use(express.urlencoded({extended: true}));
-app.use(cors())
 
-const io = require("socket.io")(3000);
+const httpServer = require("http").createServer(app);
+const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: '*',
+    },
+});
 
 io.on("connection", socket => {
   console.log(socket.id)
-})
+});
 
 //defult page
 app.get('/', (req, res) => {
@@ -37,6 +40,7 @@ app.get('/', (req, res) => {
 //send and post message page
 app.use("/msg",messageRoutes)
 
-app.listen(port, () => {
+
+httpServer.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
 });
