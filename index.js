@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
+const { startSocketIO } = require('./socketio')
 const messageRoutes = require('./routes/message')
 
 const app = express();
@@ -24,18 +25,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 const httpServer = require("http").createServer(app);
-const io = require("socket.io")(httpServer, {
-  cors: {
-    origin: '*',
-  },
-});
 
-io.on("connection", socket => {
-  console.log(socket.id)
-});
+startSocketIO(httpServer)
+
 
 //defult page
 app.get('/', (req, res) => {
+  res.send('Billboard-backend')
+});
+
+
+app.get('/socket', (req, res) => {
+
   res.send('Billboard-backend')
 });
 

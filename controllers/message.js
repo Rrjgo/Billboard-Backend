@@ -20,6 +20,8 @@ const sendMessage = async (req, res) => {
             timestamp: moment().format('MMMM Do YYYY, h:mm:ss')
         })
         await newMessage.save();
+        const { io } = require("../socketio");
+        io.sockets.emit("message", newMessage)
         res.send(newMessage)
 
     } catch (e) {
@@ -30,7 +32,6 @@ const sendMessage = async (req, res) => {
 const searchMessage = async (req, res) => {
     try {
         const searchMessage = { $text: { $search: req.body.message } }
-        console.log(req.body)
         const searchMessages = await Message.find(searchMessage)
         res.send(searchMessages)
 
