@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const messageRoutes = require('./routes/message')
 
@@ -9,23 +10,24 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 //connect to mongodb
-mongoose.connect(process.env.MONGOOSE_URL || "" ,{
+mongoose.connect(process.env.MONGOOSE_URL || "", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true
 });
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
-mongoose.connection.once('open',() => {})
+mongoose.connection.once('open', () => { })
 
-app.use(express.json({extended: true}));
-app.use(express.urlencoded({extended: true}));
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cors())
 
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
-    cors: {
-      origin: '*',
-    },
+  cors: {
+    origin: '*',
+  },
 });
 
 io.on("connection", socket => {
@@ -38,7 +40,7 @@ app.get('/', (req, res) => {
 });
 
 //send and post message page
-app.use("/msg",messageRoutes)
+app.use("/msg", messageRoutes)
 
 
 httpServer.listen(port, () => {
