@@ -1,18 +1,18 @@
+import socketIO from "socket.io"
+import http from 'http'
+import express from 'express'
 
-const socketIO = require("socket.io")
+const app = express();
+const httpServer = http.createServer(app);
 
-const startSocketIO = (httpServer) => {
-    const io = socketIO(httpServer, {
-        cors: {
-            origin: '*',
-        },
-    });
+const io = socketIO(httpServer, {
+    cors: {
+        origin: '*',
+    },
+});
 
-    io.on("connection", socket => {
-        console.log(socket.id)
-    });
+io.on("connection", socket => {
+    console.log(socket.id)
+});
 
-    module.exports.io = io
-}
-
-module.exports.startSocketIO = startSocketIO
+export { httpServer, app, io }

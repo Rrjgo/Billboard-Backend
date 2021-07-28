@@ -1,13 +1,13 @@
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
+import express from 'express'
+import mongoose from 'mongoose'
+import cors from 'cors'
 
-const { startSocketIO } = require('./socketio')
-const messageRoutes = require('./routes/message')
+import { app, httpServer } from './socketio'
+import messageRoutes from './routes/message'
 
-const app = express();
 const port = process.env.PORT || 8000;
 
 //connect to mongodb
@@ -23,11 +23,6 @@ mongoose.connection.once('open', () => { })
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
-
-const httpServer = require("http").createServer(app);
-
-startSocketIO(httpServer)
-
 
 //defult page
 app.get('/', (req, res) => {

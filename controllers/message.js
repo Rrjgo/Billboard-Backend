@@ -1,5 +1,6 @@
-const Message = require("../models/message");
-const moment = require('moment');
+import Message from "../models/message"
+import moment from 'moment'
+import { io } from "../socketio";
 
 const getMessages = async (req, res) => {
     try {
@@ -20,7 +21,8 @@ const sendMessage = async (req, res) => {
             timestamp: moment().format('MMMM Do YYYY, h:mm:ss')
         })
         await newMessage.save();
-        const { io } = require("../socketio");
+
+
         io.sockets.emit("message", newMessage)
         res.send(newMessage)
 
@@ -40,7 +42,7 @@ const searchMessage = async (req, res) => {
     }
 };
 
-module.exports = { getMessages, sendMessage, searchMessage };
+export { getMessages, sendMessage, searchMessage };
 
 
 
